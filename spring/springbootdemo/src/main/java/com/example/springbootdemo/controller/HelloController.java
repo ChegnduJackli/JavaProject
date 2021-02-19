@@ -8,13 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 //  @ResponseBody and controller合并版本
 @RestController
+@RequestMapping("/api/hello")
 public class HelloController {
 
-    @Value("${name}")
+    @Value("${person.name}")
     private String name;
 
     @Value("${person.age}")
     private String age;
+
+    @Value("${person.address}")
+    private String address;
 
     @RequestMapping("/hello")
     public String hello() {
@@ -28,8 +32,7 @@ public class HelloController {
     //获得配置yml信息
     @RequestMapping("/getyml")
     public String GetYml(){
-
-        return "name:"+ name + " age: "+ age;
+        return "name:"+ name + " age: "+ age +" address:"+ address+ ": from yml";
     }
 
 }

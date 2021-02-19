@@ -29,9 +29,9 @@ public class SpringTest {
 //        personDao.add();
 //
 //        // 通过容器获取personService实例
-//        PersonService personService = (PersonService) application.getBean("personService");
-//        // 调用personService的addPerson()方法
-//        personService.addPerson();
+        PersonService personService = (PersonService) application.getBean("personService");
+        // 调用personService的addPerson()方法
+        personService.addPerson();
 
         // 通过容器获取id为person2实例
 //        Person2 p2 = (Person2) application.getBean("person2");

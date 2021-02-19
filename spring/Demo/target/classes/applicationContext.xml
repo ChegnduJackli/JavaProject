@@ -77,7 +77,7 @@
     <bean id="testDao" class="dao.TestDaoImpl"></bean>
     <bean id="personDao" class="dao.PersonDaoImpl" scope="prototype" />
 
-    <bean id="personService" class="dao.PersonServiceImpl">
+    <bean id="personService" class="com.ioc.PersonServiceImpl">
         <!-- 将personDao实例注入personService实例中 -->
         <property name="personDao" ref="personDao"/>
     </bean>

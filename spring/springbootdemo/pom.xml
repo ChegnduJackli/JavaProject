@@ -58,6 +58,15 @@
             <version>8.0.18</version>
         </dependency>
 
+        <!-- Redis -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.lettuce</groupId>-->
+<!--            <artifactId>lettuce-core</artifactId>-->
+<!--        </dependency>-->
 <!--映射@configurationProperties的执行器的配置-->
         <dependency>
         <groupId>org.springframework.boot</groupId>
