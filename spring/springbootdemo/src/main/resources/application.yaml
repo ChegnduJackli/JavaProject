@@ -1,0 +1,15 @@
+person:
+  name: zsr
+  age: 24
+  happy: true
+  birth: 2000/02/03
+  maps: {k1: v1,k2: v2}
+  lists:
+    - guitar
+    - sing
+    - play
+  dog:
+    name: duoduo
+    age: 4
+
+name: jack

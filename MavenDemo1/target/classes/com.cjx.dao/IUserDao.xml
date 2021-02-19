@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjx.dao.IUserDao">
+    <!-- 配置查询所有 -->
+    <select id="findAll" resultType="com.cjx.entity.User">
+        select * from user
+    </select>
+
+    <select id="selectById"  parameterType="long" resultType="com.cjx.entity.User">
+        select * from user where id=#{id}
+    </select>
+
+    <select id="selectByPojo"  parameterType="com.cjx.entity.SelectUserParam" resultType="com.cjx.entity.User">
+        select * from user where username=#{username}
+    </select>
+
+    <select id="selectByIf"  parameterType="com.cjx.entity.User" resultType="com.cjx.entity.User">
+        select * from user where 1 =1
+    <if test="username!=null and username!=''">
+        <!--在进行模糊查询时，如果使用“${}”拼接字符串，则无法防止 SQL 注入问题。如果使用字符串拼接函数或连接符号，但不同数据库的拼接函数或连接符号不同。
+         例如 MySQL 的 concat 函数、Oracle 的连接符号“||”，这样 SQL 映射文件就需要根据不同的数据库提供不同的实现，显然比较麻烦，且不利于代码的移植。
+         幸运的是，MyBatis 提供了 <bind> 元素来解决这一问题。
+         -->
+        <bind name="para_uname" value="'%' + username + '%'"/>
+        and userName like #{para_uname}
+        <!--and userName like concat('%',#{username},'%') -->
+    </if>
+        <if test="sex!=null and sex!=''">
+            and sex  = #{sex}
+        </if>
+    </select>
+
+    <select id="selectByForEach"  parameterType="List" resultType="com.cjx.entity.User">
+        select * from user where id in
+        <foreach item="item" index="index" collection="list"  open="("  separator=","  close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <insert id="addUser"  parameterType="com.cjx.entity.User" keyProperty="id">
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            select if(max(id) is null,1,max(id)+1) as newUid from user
+
+        </selectKey>
+
+      insert into user (id,username,birthday,sex,address)
+      values(#{id},#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+    <update id="updateUser" parameterType="com.cjx.entity.User">
+        update user set username =  #{username},sex = #{sex} where id = #{id}
+    </update>
+
+    <!-- 删除一个用户 -->
+    <delete id="deleteUser" parameterType="long">
+        delete from user where id = #{id}
+    </delete>
+
+
+
+</mapper>
