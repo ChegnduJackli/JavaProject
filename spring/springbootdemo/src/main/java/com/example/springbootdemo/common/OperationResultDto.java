@@ -1,4 +1,4 @@
-package pwc.taxtech.biz.common.dto;
+package com.example.springbootdemo.common;
 
 import java.util.Map;
 
