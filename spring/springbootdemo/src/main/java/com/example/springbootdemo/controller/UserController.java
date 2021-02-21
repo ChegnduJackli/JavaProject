@@ -2,10 +2,12 @@ package com.example.springbootdemo.controller;
 
 import com.example.springbootdemo.dao.UserMapper;
 import com.example.springbootdemo.entity.User;
+import com.example.springbootdemo.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 //自动从容器中找到数据
+@CrossOrigin
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -13,9 +15,12 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UserService _userService;
+
     @RequestMapping("/getUserList")
-    public String quick4(){
-        return String.valueOf(userMapper.findAll());
+    public Object quick4(){
+        return userMapper.findAll();
     }
 //    @RequestMapping("/selectById/:id")
     @RequestMapping(value="/selectById/{id}", method = RequestMethod.GET)
@@ -49,9 +54,16 @@ public class UserController {
     @PutMapping("/updateUser/{id}")
     public String DeleteUser(@PathVariable("id") int id,@RequestBody User user){
         user.setId(id);
-        Integer result = userMapper.updateUser(user);
+        //Integer result = userMapper.updateUser(user);
+        Integer result =_userService.updateUser(user);
         return  "update user count:"+ result.toString();
     }
 
+    @GetMapping("/batchSaveUserSql")
+    public String batchSaveUserSql(){
+        Integer result =_userService.batchSaveUserSql();
+
+        return "执行成功:"+result;
+    }
 
 }

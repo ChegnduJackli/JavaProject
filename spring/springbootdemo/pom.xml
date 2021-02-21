@@ -44,6 +44,10 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-jdbc</artifactId>-->
+<!--        </dependency>-->
 <!--        mybatis 起步依赖-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -59,13 +63,26 @@
         </dependency>
 
         <!-- Redis -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+<!--            <exclusions>-->
+<!--                &lt;!&ndash; 排除lettuce包 &ndash;&gt;-->
+<!--                <exclusion>-->
+<!--                    <groupId>io.lettuce</groupId>-->
+<!--                    <artifactId>lettuce-core</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+        </dependency>
+        <!-- redis依赖commons-pool 这个依赖一定要添加 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>io.lettuce</groupId>-->
 <!--            <artifactId>lettuce-core</artifactId>-->
+<!--            <version>5.0.5.RELEASE</version>-->
 <!--        </dependency>-->
 <!--映射@configurationProperties的执行器的配置-->
         <dependency>
