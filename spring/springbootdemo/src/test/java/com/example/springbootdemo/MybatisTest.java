@@ -12,14 +12,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes=SpringbootdemoApplication.class)
+@SpringBootTest(classes = SpringbootdemoApplication.class)
 public class MybatisTest {
 
     @Autowired
     private UserMapper userMapper;
 
     @Test
-    public void test(){
+    public void test() {
         List<User> data = userMapper.findAll();
         System.out.println(data);
     }

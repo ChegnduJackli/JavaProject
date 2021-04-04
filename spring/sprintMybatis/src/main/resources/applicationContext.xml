@@ -15,28 +15,28 @@
         http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
 >
     <!-- 指定需要扫描的包（包括子包），使注解生效 -->
-    <context:component-scan base-package="jack.ckDao" />
-    <context:component-scan base-package="jack.ckControler" />
+    <context:component-scan base-package="jack.ckDao"/>
+    <context:component-scan base-package="jack.ckControler"/>
     <!-- 加载properties文件 -->
-    <context:property-placeholder location="classpath:db.properties" />
+    <context:property-placeholder location="classpath:db.properties"/>
 
-<!--    https://stackoverflow.com/questions/3700720/cannot-find-class-org-springframework-jdbc-datasource-drivermanagerdatasourc-->
+    <!--    https://stackoverflow.com/questions/3700720/cannot-find-class-org-springframework-jdbc-datasource-drivermanagerdatasourc-->
     <!-- 配置数据源，读取properties文件信息 ,这儿跟教程不一样，是个坑-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${jdbc.driverClass}" />
-        <property name="url" value="${jdbc.jdbcUrl}" />
-        <property name="username" value="${jdbc.user}" />
-        <property name="password" value="${jdbc.password}" />
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="${jdbc.jdbcUrl}"/>
+        <property name="username" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
 
     </bean>
 
     <!-- 添加事务支持 -->
     <bean id="txManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
     </bean>
     <!-- 注册事务管理驱动 -->
-    <tx:annotation-driven transaction-manager="txManager" />
+    <tx:annotation-driven transaction-manager="txManager"/>
 
     <!--配置sqlSessionFactory-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -49,17 +49,17 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 
         <!-- mybatis-spring组件的扫描器，com.dao只需要接口（接口方法与SQL映射文件中的相同） -->
-        <property name="basePackage" value="jack.ckDao" />
+        <property name="basePackage" value="jack.ckDao"/>
 
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 
     </bean>
 
-<!--    <bean id="studentMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+    <!--    <bean id="studentMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
 
-<!--        &lt;!&ndash;指定要映射的mapper接口的全限定名&ndash;&gt;-->
-<!--        <property name="mapperInterface" value="ckDao.IStudentDao"/>-->
-<!--        &lt;!&ndash;指定sqlSessionFactory&ndash;&gt;-->
-<!--        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
-<!--    </bean>-->
+    <!--        &lt;!&ndash;指定要映射的mapper接口的全限定名&ndash;&gt;-->
+    <!--        <property name="mapperInterface" value="ckDao.IStudentDao"/>-->
+    <!--        &lt;!&ndash;指定sqlSessionFactory&ndash;&gt;-->
+    <!--        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--    </bean>-->
 </beans>

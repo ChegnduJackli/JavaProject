@@ -6,7 +6,6 @@
 <configuration>
 
 
-
     <!--给类取别名，简化输入，方便映射配置文件中使用-->
     <typeAliases>
         <typeAlias type="jack.ckEntity.Student" alias="student"/>
@@ -14,17 +13,17 @@
 
     <!--加载mapper映射配置文件-->
     <mappers>
-<!--        <mapper resource="Student.xml"/>-->
-<!--        <mapper resource="mapper/Student.xml"/>-->
-        <mapper resource="mapper/UserMapper.xml" />
-        <mapper resource="mapper/Student.xml" />
+        <!--        <mapper resource="Student.xml"/>-->
+        <!--        <mapper resource="mapper/Student.xml"/>-->
+        <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/Student.xml"/>
     </mappers>
 
 
     <!-- 指定映射配置文件的位置 -->
-<!--    <mappers>-->
-<!--        <mapper resource="com.cjx.dao/IUserDao.xml"/>-->
-<!--        <mapper resource="com.cjx.dao/RoleMapper.xml"/>-->
-<!--        <mapper class="com.cjx.dao.RoleMapper2"/>-->
-<!--    </mappers>-->
+    <!--    <mappers>-->
+    <!--        <mapper resource="com.cjx.dao/IUserDao.xml"/>-->
+    <!--        <mapper resource="com.cjx.dao/RoleMapper.xml"/>-->
+    <!--        <mapper class="com.cjx.dao.RoleMapper2"/>-->
+    <!--    </mappers>-->
 </configuration>

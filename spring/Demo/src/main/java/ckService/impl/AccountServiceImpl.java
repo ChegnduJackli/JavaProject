@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false)
 public class AccountServiceImpl implements AccountService {
     private AccountDao accountDao;
+
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
@@ -17,7 +18,7 @@ public class AccountServiceImpl implements AccountService {
     public void transfer(String outUser, String inUser, int money) {
         this.accountDao.out(outUser, money);
         //模拟断电
-        int i = 1/0;
+        int i = 1 / 0;
         this.accountDao.in(inUser, money);
     }
 }

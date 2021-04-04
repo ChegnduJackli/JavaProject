@@ -1,7 +1,6 @@
 package SpringTest;
 
 
-
 import jack.ckControler.StudentController;
 import jack.ckControler.UserController;
 import org.testng.annotations.Test;

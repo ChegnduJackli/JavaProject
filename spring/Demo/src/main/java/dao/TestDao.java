@@ -1,5 +1,5 @@
 package dao;
 
 public interface TestDao {
-     void sayHello();
+    void sayHello();
 }

@@ -17,17 +17,17 @@ import java.util.List;
 import java.util.Map;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes=SpringbootdemoApplication.class)
+@SpringBootTest(classes = SpringbootdemoApplication.class)
 public class RedisTest {
 
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
     private UserMapper userMapper;
 
     @Test
-    public void  test(){
+    public void test() {
         Test2();
 
 //        //1,从redis获取数据，json字符串
@@ -56,23 +56,24 @@ public class RedisTest {
         //4,将数据在控制台打印
     }
 
-    private void Test2(){
+    private void Test2() {
         String key = "hash";
-        Map<String, String> map = new HashMap<String,String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("f1", "val1");
         map.put("f2", "val2");
         // 相当于hmset命令
         redisTemplate.opsForHash().putAll(key, map);
         // 相当于hset命令
         redisTemplate.opsForHash().put(key, "f3", "6");
-        printValueForhash (redisTemplate, key, "f3");
+        printValueForhash(redisTemplate, key, "f3");
         // 相当于 hexists key filed 命令
         boolean exists = redisTemplate.opsForHash().hasKey(key, "f3");
         System.out.println(exists);
     }
-    private  void printValueForhash(RedisTemplate redisTemplate,String key,String field) {
+
+    private void printValueForhash(RedisTemplate redisTemplate, String key, String field) {
         //相当于hget命令
-        Object value = redisTemplate.opsForHash().get(key,field);
+        Object value = redisTemplate.opsForHash().get(key, field);
         System.out.println(value);
     }
 }

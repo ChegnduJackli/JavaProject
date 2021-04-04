@@ -4,7 +4,7 @@ import ckDao.AccountDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
-public class AccountDaoImpl  implements AccountDao {
+public class AccountDaoImpl implements AccountDao {
     private JdbcTemplate jdbcTemplate;
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {

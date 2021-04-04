@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/list")
 public class ListController {
 
-    @GetMapping(value="/test1")
-    public  String GetName(){
+    @GetMapping(value = "/test1")
+    public String GetName() {
         return "jack";
     }
 }

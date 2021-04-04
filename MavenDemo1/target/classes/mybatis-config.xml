@@ -16,16 +16,16 @@
 
 
                 <!-- 配置连接数据库的4个基本信息  -->
-<!--                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>-->
-<!--                <property name="url" value="jdbc:mysql://localhost:3306/demo"/>-->
-<!--                <property name="username" value="root"/>-->
-<!--                <property name="password" value="P@ss1234"/>-->
+                <!--                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>-->
+                <!--                <property name="url" value="jdbc:mysql://localhost:3306/demo"/>-->
+                <!--                <property name="username" value="root"/>-->
+                <!--                <property name="password" value="P@ss1234"/>-->
 
 
-                <property name="driver" value="${jdbc.driverClass}" />
-                <property name="url" value="${jdbc.jdbcUrl}" />
-                <property name="username" value="${jdbc.user}" />
-                <property name="password" value="${jdbc.password}" />
+                <property name="driver" value="${jdbc.driverClass}"/>
+                <property name="url" value="${jdbc.jdbcUrl}"/>
+                <property name="username" value="${jdbc.user}"/>
+                <property name="password" value="${jdbc.password}"/>
 
             </dataSource>
         </environment>

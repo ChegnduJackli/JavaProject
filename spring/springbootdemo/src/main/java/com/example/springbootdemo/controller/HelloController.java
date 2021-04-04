@@ -24,15 +24,16 @@ public class HelloController {
     public String hello() {
         return "hello,this is a springboot demo";
     }
+
     @RequestMapping("/quick")
-    public String quick(){
+    public String quick() {
         return "hello39 sprintboot";
     }
 
     //获得配置yml信息
     @RequestMapping("/getyml")
-    public String GetYml(){
-        return "name:"+ name + " age: "+ age +" address:"+ address+ ": from yml";
+    public String GetYml() {
+        return "name:" + name + " age: " + age + " address:" + address + ": from yml";
     }
 
 }

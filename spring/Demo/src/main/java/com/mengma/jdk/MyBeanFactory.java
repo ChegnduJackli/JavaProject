@@ -16,7 +16,7 @@ public class MyBeanFactory {
         // 使用代理类，进行增强
         return (CustomerDao) Proxy.newProxyInstance(
                 MyBeanFactory.class.getClassLoader(),
-                new Class[] { CustomerDao.class }, new InvocationHandler() {
+                new Class[]{CustomerDao.class}, new InvocationHandler() {
                     public Object invoke(Object proxy, Method method,
                                          Object[] args) throws Throwable {
                         myAspect.myBefore(); // 前增强

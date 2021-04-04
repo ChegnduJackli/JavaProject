@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 public class UserController {
     @Autowired
     private IUserDao userDao;
+
     public void test() {
         // 查询一个用户
         User auser = userDao.selectById(1L);

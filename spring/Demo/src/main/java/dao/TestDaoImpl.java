@@ -3,7 +3,7 @@ package dao;
 public class TestDaoImpl implements TestDao {
 
     @Override
-    public void sayHello(){
+    public void sayHello() {
         System.out.println("Hello,Spring!");
     }
 }

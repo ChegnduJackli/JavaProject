@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+
+</html>
+<script>
+    /** 将 某一个对象的属性 访问 映射到 对象的某一个属性成员上 */
+    function proxy(target, prop, key) {
+        Object.defineProperty(target, key, {
+            enumerable: true,
+            configurable: true,
+            get() {
+                return target[prop][key];
+            },
+            set(newVal) {
+                target[prop][key] = newVal;
+            }
+        });
+    }
+
+    function JGVue(options) {
+        this._data = options.data;
+
+        let keys = Object.keys(this._data);
+        // 代理
+        for (let i = 0; i < keys.length; i++) {
+            // 将 this._data[ keys[ i ] ] 映射到 this[ keys[ i ] ] 上
+            // 就是要 让 this 提供 keys[ i ] 这个属性
+            // 在访问这个属性的时候 相当于在 访文this._data 的这个属性
+
+            proxy(this, '_data', keys[i]);
+        }
+    }
+
+
+    let app = new JGVue({
+        el: '#root',
+        data: {
+            name: '张三'
+            , age: 19
+            , gender: '难'
+            , datas: [
+                {info: '好难'},
+                {info: '太难'},
+                {info: '真的难么?'},
+                {info: '练习一下'},
+            ]
+        },
+
+    });
+
+
+</script>

@@ -15,12 +15,12 @@ import javax.annotation.Resource;
 public class PersonController {
 
 
-//    @Autowired
+    //    @Autowired
     @Resource
     private Person person;
 
     @RequestMapping("/quick3")
-    public String quick3(){
+    public String quick3() {
         return String.valueOf(person);
     }
 

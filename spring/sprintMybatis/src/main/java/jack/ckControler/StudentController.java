@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 public class StudentController {
     @Autowired
     private IStudentDao studentDao;
+
     public void test() {
         Student s = studentDao.findStudentById(1);
         System.out.println("run StudentController");

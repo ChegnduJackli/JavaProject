@@ -19,7 +19,7 @@ public class test {
         SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
         SqlSessionFactory factory = builder.build(in);
         //3.使用工厂生产一个SqlSession对象
-        SqlSession  session= factory.openSession();
+        SqlSession session = factory.openSession();
         //4.使用SqlSession创建dao接口的代理对象
         IUserDao userDao = session.getMapper(IUserDao.class);
         //5.使用代理对象执行方法
@@ -33,7 +33,7 @@ public class test {
         User u1 = userDao.selectById(1L);
         System.out.println(u1);
 
-        User selectUser =new User();
+        User selectUser = new User();
         selectUser.setUsername("god");
         //selectUser.setSex("F");
         List<User> u2 = userDao.selectByIf(selectUser);
@@ -49,7 +49,7 @@ public class test {
 //        }
 
         //queyr by pojo
-        SelectUserParam su =new  SelectUserParam();
+        SelectUserParam su = new SelectUserParam();
         su.setUsername("god");
         List<User> u3 = userDao.selectByPojo(su);
 
@@ -59,13 +59,13 @@ public class test {
 
 
         Random ran1 = new Random(1000);
-        User addU =new User();
-       // addU.setId(100);
-        addU.setUsername("god"+ran1.nextInt());
+        User addU = new User();
+        // addU.setId(100);
+        addU.setUsername("god" + ran1.nextInt());
         addU.setAddress("chengdu");
         addU.setBirthday(new Date());
         addU.setSex("M");
-       int  addResult = userDao.addUser(addU);
+        int addResult = userDao.addUser(addU);
         System.out.println("添加了" + addResult + "条记录");
 //        session.insert("com.cjx.dao.IUserDao.addUser",addU);
 //        session.commit();
@@ -83,9 +83,9 @@ public class test {
         session.commit();
 
         //5.使用代理对象执行方法
-          users = userDao.findAll();
+        users = userDao.findAll();
 
-        for (User user :  users) {
+        for (User user : users) {
             System.out.println(user);
         }
 
