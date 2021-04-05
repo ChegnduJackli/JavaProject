@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="vue_工具方法.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+
+</html>
+<script>
+    // let a = [{ name: 'aa', age: '12' }, { name: 'bb', age: '23' },]
+    // let b = [{ name: 'aa', age: '12' }, { name: 'bb', age: '23', sex: 'm' }]
+    // let ret1 = looseEqual(a, b);
+    // console.log(ret1);
+
+    //once用法 ,只执行一次，传递函数进来
+    // var resolve = once(function (res) {
+    //     // cache resolved
+    //     factory.resolved = ensureCtor(res, baseCtor);
+    //     // invoke callbacks only if this is not a synchronous resolve
+    //     // (async resolves are shimmed as synchronous during SSR)
+    //     if (!sync) {
+    //         forceRender(true);
+    //     } else {
+    //         owners.length = 0;
+    //     }
+    // });
+
+    // var f1 = function () {
+    //     console.log('ttt');
+    // };
+    // var t1 = once(f1);
+    // t1();
+    // t1();
+
+    //#遍历去重
+    // let arr = [1, 1, 1, 2, 2, 2, 3, 3];
+    // let _set = {};
+    // let _newArr = [];
+    // arr.forEach(v => {
+    //     _set[v] || (_set[v] = true, _newArr.push(v));
+    // });
+
+    // console.log(_set);
+    // let keys = Object.keys(_set);
+    // // console.log(keys);
+    console.log(_newArr);
+</script>
