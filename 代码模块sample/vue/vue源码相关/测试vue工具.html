@@ -50,5 +50,20 @@
     // console.log(_set);
     // let keys = Object.keys(_set);
     // // console.log(keys);
-    console.log(_newArr);
+    //console.log(_newArr);
+
+    //获取属性的描述 getOwnPropertyDescriptor
+    //var obj = { name: 'xx' };
+    var obj = {};
+    Object.defineProperty(obj, 'name', {
+
+        get() {
+            return value;
+        },
+        set(newVal) {
+            this.value = newVal;
+        }
+    })
+    var attrs = Object.getOwnPropertyDescriptor(obj, 'name')
+    console.log(attrs);
 </script>
