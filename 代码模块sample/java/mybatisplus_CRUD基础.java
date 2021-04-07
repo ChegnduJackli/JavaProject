@@ -1,3 +1,5 @@
+//map需要继承BaseMapper ，才能有MP的方法
+public interface CustomsPaymentBookMapper extends BaseMapper<CustomsPaymentBook> {}
 
 //*****************插入 insert********************* */
 
@@ -101,4 +103,18 @@ if(StringUtils.isNotEmpty(sex)){
     queryWrapper.eq(User::getSex,sex);
 }
 List<User> users = userMapper.selectList(queryWrapper);
+
+
+//*****************分页 page********************* */
+
+//分页获取所有数据，对于大数据操作，可以分批次取数（比如每次1000条）
+//queryWrapper为查询条件
+LambdaQueryWrapper<InputInvoice> invoiceQueryWrapper = new LambdaQueryWrapper<>();
+invoiceQueryWrapper.eq(InputInvoice::getBuyerTaxNumber, taxNo)
+        .eq(InputInvoice::getInvoiceType, InputInvoiceTypeEnum.VAT_SPECIAL_INVOICE.value())
+        .in(InputInvoice::getInvoiceNumber, invoiceNumberList)
+        .in(InputInvoice::getInvoiceCode, invoiceCodeList)
+        .isNotNull(InputInvoice::getVerifyStatus);
+
+List<InputInvoice> invoiceList = CommonUtil.GetAllPageData(queryWrapper, inputInvoiceMapper);
 
