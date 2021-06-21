@@ -2,6 +2,7 @@ package com.example.springbootdemo;
 
 import com.example.springbootdemo.common.ImapHelper;
 import com.example.springbootdemo.dao.UserMapper;
+import com.example.springbootdemo.entity.EmailInfoDto;
 import com.example.springbootdemo.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,21 +25,20 @@ public class imapTest {
 
     @Test
     public void test() {
-
-        String str = "20201001";   //
-        Date format1 = null;
-        try {
-            format1 = new SimpleDateFormat("yyyyMMdd").parse(str);
-
-            String longDate = new SimpleDateFormat("yyyy-MM-dd").format(format1);
-            format1 = new SimpleDateFormat("yyyy-MM-dd").parse(str);
-        } catch (Exception e) {
-
-        }
-
-        //_mailMapper.ReadMail();
+        List<EmailInfoDto>  emaiList =   _mailMapper.ReadMail();
         Log("test");
     }
+
+    @Test
+    public void test2() {
+      String s =" 临沂丽珍贸易有限公司 - 电子发票 - 202104 温度计订单";
+        int index = s.indexOf("电子发票");
+        int keyLen ="电子发票".length();
+        String str1 = s.substring(index+keyLen,s.length()).trim();
+        String str2 =str1.replaceFirst("-","");
+        System.out.println(str2);
+    }
+
 
     private void Log(String msg) {
         System.out.println(msg);

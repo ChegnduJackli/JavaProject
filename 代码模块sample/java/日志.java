@@ -10,25 +10,19 @@ tempCommonLogParams.setModule(OperationModule.Organization.value());
 
 tempCommonLogParams.setComment("");
 tempCommonLogParams.setAction(OperationAction.New.value());
+tempCommonLogParams.setOriginalState("");
 tempCommonLogParams.setUpdateState(SeriliazeObj(organizationShareholder));
 // 前台翻译key
 tempCommonLogParams.setOperationContent(LogMessage.LogContentKey.GudongInfo);
 // {机构名称} - {股东名称}
 tempCommonLogParams.setOperationObject(logContent);
-
-tempCommonLogParams.setOriginalState("");
 operationLogService.addOperationLogNew(tempCommonLogParams);
+
 
 // 单独为董事加一条
 OperationLogParaDto log2 = beanUtil.copyProperties(tempCommonLogParams, new OperationLogParaDto());
 log2.setModule(OperationModule.Shareholder.value());
 operationLogService.addOperationLogNew(log2);
-
-
-// 文件跟档案做关联
-List<Long> deleteIdList = new ArrayList<>();
-deleteIdList.add(Long.parseLong(item.getId()));
-documentNService.delDocInfo(deleteIdList);
 
 // file log
 OperationLogParaDto logFile = new OperationLogParaDto();
@@ -55,3 +49,30 @@ val logContent = organizationHK.getName() + LogMessage.logSeperator + calendarEv
 SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd ");
 tempCommonLogParams.setOperationObject(
 org.getName() + "-" + event.getTaskName() + "-" + f.format(event.getTaskDate()));
+
+
+
+
+LogInputApiData apiData = new LogInputApiData();
+apiData.setType(InvoiceApiDataTypeEnum.InvoiceVerify.getCode());
+apiData.setIsSuccess(false);
+apiData.setMessage("发票号码：" + invoice.getInvoiceNumber() + "超过当日验真次数");
+insertInvoiceApiData(apiData, invoice, null);
+
+
+
+
+      // add log
+      String fromStatus = InputInvoiceStatusEnum.key(invoice.getStatus());
+      String toUpdateStatus = InputInvoiceStatusEnum.key(status);
+
+	  //复制一份
+	  InputInvoice invoiceCopy = beanUtil.copyProperties(invoice, new InputInvoice());
+
+      LogInputApiData apiData = new LogInputApiData();
+      apiData.setType(InvoiceApiDataTypeEnum.InvoiceModify.getCode());
+      apiData.setIsSuccess(true);
+      apiData.setMessage("更新发票状态：从"+ Translation.toTrans(fromStatus)+ "改为" + Translation.toTrans(toUpdateStatus));
+      apiData.setOriginalState(SeriliazeObj(invoiceCopy));
+      apiData.setUpdateState(SeriliazeObj(entity));
+      insertInvoiceApiData(apiData, invoice, null);

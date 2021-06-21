@@ -12,7 +12,7 @@ userMapper.insert(user3);
 
 //*****************更新 update********************* */
 
-// a,根据id更新
+// a,根据id更新 ，注意，不能出入null值
 User user3 = new User();
 user3.setId(3);
 user3.setUsername("jack update");
@@ -28,6 +28,7 @@ userMapper.update(user2,updateWrapper);
 
 //c, 当表中字段很多,只更新少量字段的值（建议使用）
 //可以使用updateWrapper的set方法
+//设置null可以通过这个方式
 LambdaUpdateWrapper<InputInvoiceItem> updateWrapper = new LambdaUpdateWrapper<>();
 updateWrapper.eq(InputInvoiceItem::getId, item.getId())
 .set(InputInvoiceItem::getProductType, productTpe)
@@ -103,6 +104,12 @@ if(StringUtils.isNotEmpty(sex)){
     queryWrapper.eq(User::getSex,sex);
 }
 List<User> users = userMapper.selectList(queryWrapper);
+
+
+//查询第一个元素
+Optional<InputInvoiceDatabase> invoiceDatabaseOptional = invoiceDatabaseList.stream()
+.filter(e -> StringUtils.equals(e.getInvoiceNumber(), invoiceBean.getInvoiceNumber()))
+.findFirst();
 
 
 //*****************分页 page********************* */

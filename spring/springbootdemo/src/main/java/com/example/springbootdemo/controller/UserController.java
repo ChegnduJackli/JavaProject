@@ -1,5 +1,6 @@
 package com.example.springbootdemo.controller;
 
+import com.example.springbootdemo.common.RedisUtil;
 import com.example.springbootdemo.dao.UserMapper;
 import com.example.springbootdemo.entity.User;
 import com.example.springbootdemo.service.impl.UserService;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
+    @Autowired
+    private RedisUtil _redisUtil;
 
     @Autowired
     private UserMapper userMapper;
@@ -71,7 +75,7 @@ public class UserController {
     @GetMapping("/testPlus")
     public String testPlus() {
         Integer result = _userService.TestPlus();
-
+        Object key1 = _redisUtil.get("key1");
         return "执行成功:" + result;
     }
 }

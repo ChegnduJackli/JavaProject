@@ -387,3 +387,25 @@ function once (fn) {
         }
     }
 }
+
+
+
+/**
+ * Parse simple path.
+ * 解析person.child.name的值
+ */
+ const bailRE = new RegExp(`[^${unicodeRegExp.source}.$_\\d]`) // 用于 匹配 xxx.xx.xx.x 正则表达式
+ export function parsePath (path) {
+   if (bailRE.test(path)) {
+     return
+   }
+   const segments = path.split('.')
+   return function (obj) {
+     for (let i = 0; i < segments.length; i++) {
+       if (!obj) return
+       obj = obj[segments[i]]
+     }
+     return obj
+   }
+ }
+ 

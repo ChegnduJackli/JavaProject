@@ -16,6 +16,9 @@ public class RedisUtil {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 // =============================common============================
+public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+    this.redisTemplate = redisTemplate;
+}
 
     /**
      * 指定缓存失效时间
@@ -89,7 +92,8 @@ public class RedisUtil {
      * @return 值
      */
     public Object get(String key) {
-        return key == null ? null : redisTemplate.opsForValue().get(key);
+        //return key == null ? null : redisTemplate.opsForValue().get(key);
+        return key == null ? null : redisTemplate.boundValueOps(key).get();
     }
 
     /**

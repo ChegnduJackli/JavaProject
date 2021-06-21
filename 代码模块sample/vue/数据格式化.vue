@@ -21,3 +21,9 @@ cell-template="taxRate"
 <span>{{ $formatter.formatTaxRate(data.data.taxRate) }}</span>
 </div>
 </template>
+
+千分位 1,000
+{{entityModal.payment_deductibleNum | toThousandFilter}}
+
+千分位+2位小数 1,000.00
+{{entityModal.payment_deductibleTax | toThousandFixedFilter}}

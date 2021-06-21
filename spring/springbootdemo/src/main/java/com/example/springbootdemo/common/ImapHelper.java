@@ -1,10 +1,15 @@
 package com.example.springbootdemo.common;
 
+import com.example.springbootdemo.entity.Dto.ImapConfig;
+import com.example.springbootdemo.entity.EmailInfoDto;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPStore;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -29,21 +34,47 @@ public class ImapHelper {
     //    @Value("CalendarMail.from")
 //    private String from;
 
+    @Value("${ImapConfig.protocol}")
+    private String protocol;
+    @Value("${ImapConfig.host}")
+    private String host;
+    @Value("${ImapConfig.port}")
+    private String port;
+    @Value("${ImapConfig.enableSsl}")
+    private String enableSsl;
+    @Value("${ImapConfig.userName}")
+    private String userName;
+    @Value("${ImapConfig.pwd}")
+    private String pwd;
+    @Value("${ImapConfig.emailTile}")
+    private String subjectKeyWord;
     private MimeMessage mimeMessage = null;
+//
+@Resource
+ImapConfig _config;
 
     public List<EmailInfoDto> ReadMail() {
+       System.out.println(_config);
         List<EmailInfoDto> dtoList = new ArrayList<EmailInfoDto>();
+        String host ="imap.163.com";
         try {
             Properties prop = System.getProperties();
             prop.put("mail.store.protocol", "imap");
-            prop.put("mail.imap.host", "imap.exmail.qq.com");
-            prop.put("mail.imap.port", "993");
-            prop.put("mail.smtp.starttls.enable", "true");
-            prop.put("mail.smtp.auth", "true");
+            //prop.put("mail.imap.host", "imap.exmail.qq.com");
+            prop.put("mail.imap.host", host);
+            prop.put("mail.imap.port", "143");
+            prop.put("mail.smtp.starttls.enable", "false");
+            //prop.put("mail.smtp.auth", "true");
 
             Session session = Session.getInstance(prop, null);
+
+//            URLName urln = new URLName("imap", "imap.exmail.qq.com", 993, null,
+//                    RmdeskConfig.euser, RmdeskConfig.epassword);
+//            Store store = session.getStore(urln);
+
+            //store.connect();
             Store store = session.getStore("imaps");
-            store.connect("imap.exmail.qq.com", RmdeskConfig.euser, RmdeskConfig.epassword);
+            store.connect(host,RmdeskConfig.euser, RmdeskConfig.epassword);
 
             IMAPFolder folder = (IMAPFolder) store.getFolder("INBOX"); // 收件箱
             folder.open(Folder.READ_WRITE);
@@ -91,13 +122,17 @@ public class ImapHelper {
             dto.setFrom(pmm.getFrom());
             dto.setMessageId(pmm.getMessageId());
             //   pmm.getMailContent((Part) messages[i]);
-            pmm.setAttachPath("c:\\Users\\jack d li\\Documents\\temp");
-            //保存文件，且返回文件名
-            dto.setFilePathList(pmm.saveAttachMent((Part) messages[i]));
+            if(pmm.isContainAttach(msg)) {
+                pmm.setAttachPath("c:\\Users\\jack d li\\Documents\\temp");
+                //保存文件，且返回文件名
+                dto.setFilePathList(pmm.saveAttachMent((Part) messages[i]));
+            }
 
             System.out.println("Message " + i + " sentdate: " + msg.getSentDate());
 
             msg.setFlag(Flags.Flag.SEEN, true);
+            dto.setEmailCC(pmm.getEmailCC());
+
             dtoList.add(dto);
             // Log(msg);
         }
@@ -111,32 +146,22 @@ public class ImapHelper {
 
 @Data
 class RmdeskConfig {
-    public static String euser = "jack@danggui.fun";
-    public static String epassword = "P@ss1234!";
-}
+    public static String euser = "dayday119122@163.com";
+    public static String epassword = "ETXOYZDEYQPJMQWK";
 
-@Data
-class EmailInfoDto {
-    private String Subject;
-    private String SendDate;
-    private Boolean ReplySign;
-    private String From;
-    private String MessageId;
-    private String Content;
-    private String BodyText;
-    private Boolean IsNew;
-    private Boolean hasAttach;
-    private InputStream AttachStream;
-    private List<String> FilePathList;
+//    public static String euser = "jack@danggui.fun";
+//    public static String epassword = "P@ss1234!!";
 }
 
 
+
+@SuppressWarnings("all")
 class ParseEmail {
 
     private MimeMessage mimeMessage = null;
     private String saveAttachPath = ""; //附件下载后的存放目录
     private StringBuffer bodytext = new StringBuffer();//存放邮件内容
-    private String dateformat = "yy-MM-dd HH:mm"; //默认的日前显示格式
+    private String dateformat = "yyyy-MM-dd HH:mm"; //默认的日前显示格式
 
     public ParseEmail(MimeMessage mimeMessage) {
         this.mimeMessage = mimeMessage;
@@ -151,6 +176,18 @@ class ParseEmail {
      */
     public String getFrom() throws Exception {
         InternetAddress address[] = (InternetAddress[]) mimeMessage.getFrom();
+        String from = address[0].getAddress();
+        if (from == null)
+            from = "";
+        String personal = address[0].getPersonal();
+        if (personal == null)
+            personal = "";
+        String fromaddr = personal + "<" + from + ">";
+        return fromaddr;
+    }
+
+    public String getEmailCC() throws Exception {
+        InternetAddress address[] = (InternetAddress[]) mimeMessage.getRecipients(Message.RecipientType.CC);
         String from = address[0].getAddress();
         if (from == null)
             from = "";
@@ -347,9 +384,11 @@ class ParseEmail {
                         && ((disposition.equals(Part.ATTACHMENT)) || (disposition
                         .equals(Part.INLINE)))) {
                     fileName = mpart.getFileName();
-                    if (fileName.toLowerCase().indexOf("gb2312") != -1) {
-                        fileName = MimeUtility.decodeText(fileName);
-                    }
+                    //utf-8也要解码
+//                    if (fileName.toLowerCase().indexOf("gb2312") != -1) {
+//                        fileName = MimeUtility.decodeText(fileName);
+//                    }
+                    fileName = MimeUtility.decodeText(fileName);
                     fullPath = saveFile(fileName, mpart.getInputStream());
                     filePathList.add(fullPath);
                 } else if (mpart.isMimeType("multipart/*")) {

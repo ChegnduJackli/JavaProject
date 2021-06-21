@@ -192,3 +192,10 @@ Boolean b = _plusUserService.saveBatch(paramList);
 
 //事务
 //方法上加： @Transactional
+
+
+
+@RedisCache(name = "xxx")
+//设置xxx缓存，xxx名称全局不重复
+@RedisCacheEvict(name = "xxx")
+清楚xxx缓存，放在修改的地方

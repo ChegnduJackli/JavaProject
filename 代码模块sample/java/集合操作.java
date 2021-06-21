@@ -118,3 +118,20 @@ public void testMap() {
 
 }
 
+///////////////////普通操作
+//判断集合是否有值
+if (CollectionUtils.isNotEmpty(pageRes.getRecords())) {
+    inputInvoiceDisplayList.addAll(pageRes.getRecords());
+  }
+
+  
+  //检测是否为null 可以使用CollectionUtils.isEmpty()
+if (CollectionUtils.isEmpty(collection)){
+    System.out.println("collection is null.");
+}
+
+
+
+//求和
+  BigDecimal sumInvoiceAmount = invoices.stream().map(InputInvoice::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+  BigDecimal sumAccountDetailAmount = accountDetails.stream().map(InputInvoiceAccountDetail::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);

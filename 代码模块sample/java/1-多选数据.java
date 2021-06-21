@@ -6,19 +6,23 @@ public List<InputInvoiceResultDTO> inputInvoiceDisable(List<Long> invoiceIdList)
         example.createCriteria().andIdIn(invoiceIdList);
         List<InputInvoice> inputInvoiceList=inputInvoiceMapper.selectByExample(example);
 
-        InputInvoice disabledInvoice=new InputInvoice();
-        for(InputInvoice inputInvoice:inputInvoiceList){
-        if(InputInvoiceStatusEnum.Certified.value().equals(inputInvoice.getStatus())){
-        // 已勾选认证的发票不可失效处理
-        invoiceResultList.add(new InputInvoiceResultDTO(inputInvoice.getInvoiceCode(),inputInvoice.getInvoiceNumber(),inputInvoice.getStatus(),"CannotDisable"));
-        }else{
-        // 对于其它状态的发票简单认定可失效，后续可按需改动
-        disabledInvoice.setId(inputInvoice.getId());
-        disabledInvoice.setStatus(InputInvoiceStatusEnum.Deleted.value());
-        inputInvoiceMapper.updateByPrimaryKeySelective(disabledInvoice);
-        invoiceResultList.add(new InputInvoiceResultDTO(inputInvoice.getInvoiceCode(),inputInvoice.getInvoiceNumber(),disabledInvoice.getStatus(),"Success"));
-        }
-        }
+//*******************更新*************************//
 
-        return invoiceResultList;
-        }
+   // 更改发票状态
+   InputInvoice inputInvoiceToUpdate = new InputInvoice();
+   inputInvoiceToUpdate.setId(inputInvoice.getId());
+   inputInvoiceToUpdate.setStatus(InputInvoiceStatusEnum.Refunded.value());
+   auditHelper.auditUpdate(inputInvoiceToUpdate);
+   inputInvoiceMapper.updateByPrimaryKeySelective(inputInvoiceToUpdate);
+
+
+
+   //*******************插入*************************//
+InputInvoiceAddition inputInvoiceAdditionToInsert = new InputInvoiceAddition();
+inputInvoiceAdditionToInsert.setId(idGenerator.nextId());
+inputInvoiceAdditionToInsert.setInvoiceId(inputInvoice.getId());
+inputInvoiceAdditionToInsert.setType(InputInvoiceAdditionTypeEnum.Refund.value());
+inputInvoiceAdditionToInsert.setReason(invoiceRefund.getRefundReason());
+inputInvoiceAdditionToInsert.setRemark(invoiceRefund.getRefundRemark());
+auditHelper.auditCreate(inputInvoiceAdditionToInsert);
+inputInvoiceAdditionMapper.insertSelective(inputInvoiceAdditionToInsert);
